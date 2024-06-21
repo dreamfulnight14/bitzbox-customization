@@ -34,9 +34,9 @@ async function getOrderedCategories() {
       }
     })
   })
-  // parentCategoryIdObj.forEach((categoryId) => {
-  //   delete categoryMap[categoryId]
-  // })
+  parentCategoryIdObj.forEach((categoryId) => {
+    delete categoryMap[categoryId]
+  })
   Object.keys(categoryMap).forEach((categoryId) => {
     const category = categoryMap[categoryId]
     categoryMap[categoryId] = {
