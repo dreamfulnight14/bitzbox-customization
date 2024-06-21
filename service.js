@@ -68,7 +68,7 @@ async function getOrderedCategories() {
       ...category,
       percentage:
         category.totalItemsCount === 0
-          ? '-'
+          ? -1
           : parseInt(
               (category.outOfStockItemsCount * 100) / category.totalItemsCount
             ),
