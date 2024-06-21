@@ -34,9 +34,9 @@ async function getOrderedCategories() {
       }
     })
   })
-  parentCategoryIdObj.forEach((categoryId) => {
-    delete categoryMap[categoryId]
-  })
+  // parentCategoryIdObj.forEach((categoryId) => {
+  //   delete categoryMap[categoryId]
+  // })
   Object.keys(categoryMap).forEach((categoryId) => {
     const category = categoryMap[categoryId]
     categoryMap[categoryId] = {
@@ -46,6 +46,7 @@ async function getOrderedCategories() {
       parentSlug: category.parentSlug,
       totalItemsCount: category.totalItemsCount,
       outOfStockItemsCount: category.outOfStockItemsCount,
+      products: [],
     }
   })
   console.log('Categories Processed!')
@@ -56,6 +57,7 @@ async function getOrderedCategories() {
     product.categories.forEach((category) => {
       if (categoryMap[category.id]) {
         categoryMap[category.id].totalItemsCount++
+        categoryMap[category.id].products.push(product.id)
         if (product.stock === 0) {
           categoryMap[category.id].outOfStockItemsCount++
         }
