@@ -63,16 +63,16 @@ async function getOrderedCategories() {
     })
   })
 
-  const productCategories = {}
-  products.forEach((product) => {
-    product.categories.forEach((category) => {
-      if (productCategories[category.id]) {
-        productCategories[category.id]++
-      } else {
-        productCategories[category.id] = 1
-      }
-    })
-  })
+  // const productCategories = {}
+  // products.forEach((product) => {
+  //   product.categories.forEach((category) => {
+  //     if (productCategories[category.id]) {
+  //       productCategories[category.id]++
+  //     } else {
+  //       productCategories[category.id] = 1
+  //     }
+  //   })
+  // })
 
   const orderedCategories = Object.values(categoryMap)
     .map((category) => ({
@@ -87,7 +87,7 @@ async function getOrderedCategories() {
     .sort((a, b) => b.percentage - a.percentage)
   console.log('Product processed!')
 
-  return { orderedCategories, productCategories }
+  return orderedCategories
 }
 
 async function getAllProducts() {
