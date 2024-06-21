@@ -97,7 +97,7 @@ async function getAllProducts() {
   while (currentCount > 0) {
     try {
       const result = await axios.get(
-        `${apiHost}/products?embed=categories&fields=categories,id&count=200$active=1&offset=${count}`,
+        `${apiHost}/products?embed=categories&fields=categories,id&count=100$active=1&offset=${count}`,
         {
           headers: {
             Authorization: `Basic ${apiToken}`,
