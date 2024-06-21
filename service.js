@@ -141,4 +141,6 @@ function getParentSlug(categoryMap, currentCategoryId, parentSlug) {
 
 module.exports = {
   getOrderedCategories,
+  getAllProducts,
+  getAllCategories,
 }
