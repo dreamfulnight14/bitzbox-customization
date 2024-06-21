@@ -97,7 +97,7 @@ async function getAllProducts() {
   while (currentCount > 0) {
     try {
       const result = await axios.get(
-        `${apiHost}/products?embed=categories&count=200$active=1&offset=${count}`,
+        `${apiHost}/products?embed=categories&fields=categories,id&count=200$active=1&offset=${count}`,
         {
           headers: {
             Authorization: `Basic ${apiToken}`,
@@ -157,6 +157,19 @@ async function getProductById(id) {
   }
 }
 
+async function getProductsCount(id) {
+  try {
+    const result = await axios.get(`${apiHost}/products/count?active=1`, {
+      headers: {
+        Authorization: `Basic ${apiToken}`,
+      },
+    })
+    return result.data
+  } catch (error) {
+    console.log(error.message)
+  }
+}
+
 function getParentSlug(categoryMap, currentCategoryId, parentSlug) {
   const category = categoryMap[currentCategoryId]
   if (category && category.parents.length > 0) {
@@ -171,4 +184,5 @@ module.exports = {
   getAllProducts,
   getAllCategories,
   getProductById,
+  getProductsCount,
 }

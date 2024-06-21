@@ -5,6 +5,7 @@ const {
   getOrderedCategories,
   getAllProducts,
   getProductById,
+  getProductsCount,
 } = require('./service')
 
 const app = express()
@@ -36,6 +37,10 @@ app.get('/products', async (req, res) => {
       message: error.toString(),
     })
   }
+})
+
+app.get('/products/count', async (req, res) => {
+  res.json(await getProductsCount())
 })
 
 app.get('/products/:id', async (req, res) => {
