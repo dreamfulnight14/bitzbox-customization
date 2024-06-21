@@ -69,7 +69,7 @@ async function getOrderedCategories() {
       if (productCategories[category.id]) {
         productCategories[category.id]++
       } else {
-        productCategories[category.id] = 0
+        productCategories[category.id] = 1
       }
     })
   })
