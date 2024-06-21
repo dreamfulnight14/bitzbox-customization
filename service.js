@@ -46,7 +46,6 @@ async function getOrderedCategories() {
       parentSlug: category.parentSlug,
       totalItemsCount: category.totalItemsCount,
       outOfStockItemsCount: category.outOfStockItemsCount,
-      products: [],
     }
   })
   console.log('Categories Processed!')
@@ -57,10 +56,20 @@ async function getOrderedCategories() {
     product.categories.forEach((category) => {
       if (categoryMap[category.id]) {
         categoryMap[category.id].totalItemsCount++
-        categoryMap[category.id].products.push(product.id)
         if (product.stock === 0) {
           categoryMap[category.id].outOfStockItemsCount++
         }
+      }
+    })
+  })
+
+  const productCategories = {}
+  products.forEach((product) => {
+    product.categories.forEach((category) => {
+      if (productCategories[category.id]) {
+        productCategories[category.id]++
+      } else {
+        productCategories[category.id] = 0
       }
     })
   })
@@ -78,7 +87,7 @@ async function getOrderedCategories() {
     .sort((a, b) => b.percentage - a.percentage)
   console.log('Product processed!')
 
-  return orderedCategories
+  return { orderedCategories, productCategories }
 }
 
 async function getAllProducts() {
@@ -88,7 +97,7 @@ async function getAllProducts() {
   while (currentCount > 0) {
     try {
       const result = await axios.get(
-        `${apiHost}/products?embed=categories&count=1000$active=1&offset=${count}`,
+        `${apiHost}/products?embed=categories&count=200$active=1&offset=${count}`,
         {
           headers: {
             Authorization: `Basic ${apiToken}`,
@@ -132,6 +141,22 @@ async function getAllCategories() {
   return categories
 }
 
+async function getProductById(id) {
+  try {
+    const result = await axios.get(
+      `${apiHost}/products/${id}?embed=categories`,
+      {
+        headers: {
+          Authorization: `Basic ${apiToken}`,
+        },
+      }
+    )
+    return result.data
+  } catch (error) {
+    console.log(error.message)
+  }
+}
+
 function getParentSlug(categoryMap, currentCategoryId, parentSlug) {
   const category = categoryMap[currentCategoryId]
   if (category && category.parents.length > 0) {
@@ -145,4 +170,5 @@ module.exports = {
   getOrderedCategories,
   getAllProducts,
   getAllCategories,
+  getProductById,
 }

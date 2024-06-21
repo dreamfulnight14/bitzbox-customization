@@ -1,7 +1,11 @@
 const express = require('express')
 const cors = require('cors')
 
-const { getOrderedCategories, getAllProducts } = require('./service')
+const {
+  getOrderedCategories,
+  getAllProducts,
+  getProductById,
+} = require('./service')
 
 const app = express()
 const port = process.env.PORT || 8000
@@ -32,6 +36,10 @@ app.get('/products', async (req, res) => {
       message: error.toString(),
     })
   }
+})
+
+app.get('/products/:id', async (req, res) => {
+  res.json(await getProductById(req.params.id))
 })
 
 app.listen(port, async () => {
